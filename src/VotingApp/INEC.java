@@ -4,10 +4,23 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class INEC {
-    private static int[] electionRecord = new int[(int) CandidatePortal.getqCandidatesCounter()];
+    private int[] electionRecord ;
 
     private static ArrayList<String> PVCList = new ArrayList<>();
-    private static final String[] STATES = {"AB", "LA", "KAN", "FCT", "EN", "OG","PH", "KAT","JIG","DEL","EB","BEN"};
+    private static final String[] STATES = {"AB", "LA", "KAN", "FCT", "EN", "OG", "PH", "KAT", "JIG", "DEL", "EB", "BEN"};
+
+    private void initializeElectionRecord() {
+        if (electionRecord == null) {
+            int candidateCount = getElectionRecordCounter();
+            this.electionRecord = new int[candidateCount];
+        }
+    }
+    public int getElectionRecordCounter() {
+        return CandidatePortal.getqCandidatesCounter();
+    }
+    public int getElectionRecordLength() {
+        initializeElectionRecord(); return electionRecord.length;
+    }
 
 
 
@@ -24,16 +37,13 @@ public class INEC {
     }
 
 
-    public String displayElectionResult( String PvcNumber){
+    public String displayElectionResult(String PvcNumber) {
         if (verifyPvc(PvcNumber)) {
-
-            CandidatePortal.viewParties();
-            displayVotes();
-
-
-        } throw new IllegalArgumentException("Viewing results is for voters at the momment");
-
+            return String.format("Parties:%s\n\nVotes:%s", CandidatePortal.viewParties(), displayVotes());
+        }
+        throw new IllegalArgumentException("Viewing results is for voters at the moment");
     }
+
 
     private boolean verifyPvc(String inputtedPvcNumber) {
         for(String pvc : PVCList){
@@ -42,12 +52,12 @@ public class INEC {
         throw new IllegalArgumentException("PVC not found");
     }
 
-    private static void validateCandidateIndexAndRecordVote(Voter foundVoter, int candidateIndex) {
+    private void validateCandidateIndexAndRecordVote(Voter foundVoter, int candidateIndex) {
         if (foundVoter.hasVoted) throw new IllegalArgumentException("You have voted already");
         if (candidateIndex < 1 || candidateIndex > CandidatePortal.getqCandidatesCounter())
             throw new IllegalArgumentException("Invalid candidate number");
 
-        electionRecord[candidateIndex -1 ]++;
+        this.electionRecord[candidateIndex -1 ]++;
         foundVoter.hasVoted = true;
     }
 

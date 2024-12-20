@@ -57,7 +57,7 @@ public class CandidatePortal extends VoterPortal {
         return super.getCounter();
     }
 
-    public static long getqCandidatesCounter() {
+    public static int getqCandidatesCounter() {
         return electionRequirementsApprovalList.size();
     }
 

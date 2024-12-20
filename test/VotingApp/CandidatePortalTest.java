@@ -57,7 +57,7 @@ public class CandidatePortalTest {
         candidate.electionRequirements("apc","The broom for change","president","Graduated from Babcock university and im a chartered Accountant","Senior Accountant","Former President 2018-2020","I dont care what Apc said...ill do better than all theyve said in their manifesto","yes");
 
 
-        assertEquals(candidate.getqCandidatesCounter(),2);
+        assertEquals(CandidatePortal.getqCandidatesCounter(),2);
     }
 
 
