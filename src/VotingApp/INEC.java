@@ -30,12 +30,17 @@ public class INEC {
     }
 
     public  void recordElection(String pvcNumber, int candidateIndex, String password){
-
+        initializeElectionRecord();
       Voter foundVoter = VoterPortal.verifyRegisteredVoter(pvcNumber, password);
         validateCandidateIndexAndRecordVote(foundVoter,candidateIndex);
 
     }
+    public void recordElectionForCandidates(String pvcNumber, int candidateIndex, String password) {
+        initializeElectionRecord();
+        Candidate foundCandidate = CandidatePortal.verifyRegisteredCandidate(pvcNumber, password);
+        validateCandidateIndexAndRecordVote(foundCandidate,candidateIndex);
 
+    }
 
     public String displayElectionResult(String PvcNumber) {
         if (verifyPvc(PvcNumber)) {
@@ -91,4 +96,6 @@ public class INEC {
     public String getPVCList() {
         return PVCList.toString();
     }
+
+
 }

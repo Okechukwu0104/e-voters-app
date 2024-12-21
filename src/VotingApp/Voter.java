@@ -31,6 +31,7 @@ public class Voter {
         setVotersId(votersId);
         setPhoneNumber(phoneNumber);
         setGender(gender);
+        getMyPvcNumber();
     }
 
     public static String getName() {
@@ -63,7 +64,7 @@ public class Voter {
 
     public String getMyPvcNumber() {
 
-        if (this.myPvc == null) {
+        if (this.myPvc == null || !gottenPvc) {
             INEC inec = new INEC();
             this.myPvc = inec.distributePVC();
             gottenPvc = true;
@@ -115,7 +116,7 @@ public class Voter {
                 Email: %s
                 Voters Id: %s
                 """;
-            return String.format(output,this.getName(),this.getGender(),this.getDOB(),this.getPhoneNumber() ,this.getAddress(),this.getEmail(),this.getVotersId());
+            return String.format(output, getName(),this.getGender(),this.getDOB(),this.getPhoneNumber() ,this.getAddress(),this.getEmail(),this.getVotersId());
     }
 
 
@@ -125,7 +126,7 @@ public class Voter {
         validateName(firstName, lastName);
         firstName = Character.toUpperCase(firstName.charAt(0))+firstName.substring(1);
         lastName = Character.toUpperCase(lastName.charAt(0))+lastName.substring(1);
-        this.name = firstName+ " " +lastName;
+        name = firstName+ " " +lastName;
     }
 
     public String getEmail() {
@@ -227,15 +228,12 @@ public class Voter {
     }
 
 
+    public boolean isGottenPvc() {
+        return gottenPvc;
+    }
 
-
-
-
-
-
-
-
-
-
+    public void setGottenPvc(boolean gottenPvc) {
+        this.gottenPvc = gottenPvc;
+    }
 }
 

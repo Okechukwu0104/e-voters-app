@@ -2,6 +2,7 @@ package VotingApp;
 
 public class Candidate extends Voter {
 
+
     public Candidate(String firstname, String lastname,String gender, String DOB,String PhoneNumber, String address, String email, String password, String candidateId) {
         super(firstname, lastname,gender, DOB,PhoneNumber, address, email, password, candidateId);
     }

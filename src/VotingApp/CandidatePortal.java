@@ -1,5 +1,6 @@
 package VotingApp;
 
+
 import java.util.ArrayList;
 
 public class CandidatePortal extends VoterPortal {
@@ -7,7 +8,68 @@ public class CandidatePortal extends VoterPortal {
     private static ArrayList<String> electionRequirementsApprovalList = new ArrayList<>();
     private boolean eligibilityStatus = false;
 
+    private static ArrayList<Candidate> CandidatesList = new ArrayList<>();
+    private static ArrayList<String> candidatesHashedPasswords = new ArrayList<>();
+
     private static ArrayList<String> partyList = new ArrayList<>();
+
+    private int counter = 0;
+
+    public static Candidate verifyRegisteredCandidate(String pvcNumber, String password) {
+        for( Candidate user : CandidatesList){
+
+            if(user.getMyPvcNumber().equalsIgnoreCase(pvcNumber) ){
+                user.passwordValidation(password);
+                return user;
+            }
+        }
+        throw new IllegalArgumentException("Citizen not found");
+    }
+
+    @Override
+    public Candidate register(String firstName, String lastname, String gender, String DOB, String phoneNumber, String address, String email, String password, String votersId) {
+        Candidate candidate = new Candidate(firstName, lastname,gender,DOB,phoneNumber,address, email, password, votersId);
+        hashAndStorePassword(password);
+        CandidatesList.add(candidate);
+
+        counter++;
+        return candidate;
+    }
+    private static boolean validatePassword(String password) {
+        for (String hashedPass : candidatesHashedPasswords) {
+            if(hashedPass.equals(hashAndReturn(password)))return true;
+        };
+        throw new IllegalArgumentException("Wrong Password");
+    }
+
+    private static String hashAndReturn(String password) {
+        String hashedPassword = "";
+        for (int count = 0; count < password.length(); count++) {
+            char digit = password.charAt(count);
+            if(Character.isLetterOrDigit(digit)){ digit = (char) ('A' + (digit % 26));}
+            hashedPassword += digit;
+        }
+        return hashedPassword;
+
+    }
+
+
+
+
+    private void hashAndAdd(String password) {
+        String hashedPassword = "";
+        for (int count = 0; count < password.length(); count++) {
+            char digit = password.charAt(count);
+            if(Character.isLetterOrDigit(digit)){ digit = (char) ('A' + (digit % 26));}
+            hashedPassword += digit;
+        }
+        candidatesHashedPasswords.add(hashedPassword);
+    }
+
+
+    private void hashAndStorePassword(String password) {
+        hashAndAdd(password);
+    }
 
 
     public void electionRequirements(String partyName, String slogan, String position, String educationHistory, String professionHistory, String politicalExperience, String Manifesto, String responseToDOE) {

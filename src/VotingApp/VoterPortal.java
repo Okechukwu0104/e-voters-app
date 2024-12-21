@@ -8,6 +8,7 @@ public class VoterPortal {
 
     private static ArrayList<Voter> votersList = new ArrayList<>();
     private static ArrayList<String> votersHashedPasswords = new ArrayList<>();
+
     private long counter = 0;
 
     public Voter register(String firstName, String lastname, String gender, String DOB, String phoneNumber, String address, String email, String password, String votersId) {
@@ -39,17 +40,10 @@ public class VoterPortal {
                 return user;
             }
         }
+
         throw new IllegalArgumentException("Citizen not found");
     }
 
-    public static Voter verifyVoter(String name, String password){
-        for( Voter user : votersList){
-            if(user.getName2().equalsIgnoreCase(name) && validatePassword(password)) return user;
-        }
-        throw new IllegalArgumentException("Citizen not found");
-    }
-
-//****************************************************************
 
     private static boolean validatePassword(String password) {
         for (String hashedPass : votersHashedPasswords) {
